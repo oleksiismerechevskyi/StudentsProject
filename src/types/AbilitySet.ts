@@ -1,0 +1,1 @@
+type AbilitySet = {[key: string]: any};
