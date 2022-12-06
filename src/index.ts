@@ -1,7 +1,12 @@
 import { Warrior } from "./classes/CharacterClass/Warrior";
 import { Player } from "./classes/Player";
+import { PlayerFactory } from "./classes/PlayerFactory";
+import { PlayerAbilityService } from "./classes/Service/PlayerAbilityService";
+import { ECharacterClass } from "./enums/ECharacterClass";
 
-const warrior = new Player('Alex', new Warrior());
+const warrior = PlayerFactory.create('Alex', ECharacterClass.WARRIOR);
+const mage = PlayerFactory.create('Enemy', ECharacterClass.MAGE);
 
-warrior.useSpell('blockShield');
-warrior.useAttack(warrior);
+
+PlayerAbilityService.useAttack(warrior, mage);
+PlayerAbilityService.useSpell(warrior, 'blockShield');

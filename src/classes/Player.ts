@@ -1,8 +1,9 @@
 import { Character } from "./Character";
 import { CharacterClass } from "./CharacterClass/CharacterClass";
+import { v4 as uuidv4 } from 'uuid';
 
 export class Player extends Character {
-    private id: number = 0; 
+    private id: string = uuidv4(); 
     public nickname: string = 'test';
 
     constructor(nickName: string, characterClass: CharacterClass) {
@@ -10,7 +11,7 @@ export class Player extends Character {
         this.nickname = nickName;
     }
 
-    public getId(): number {
+    public getId(): string {
         return this.id;
     }
 

@@ -11,6 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "tsc-esm": "^1.0.4"
+    "tsc-esm": "^1.0.4",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.0"
   }
 }
