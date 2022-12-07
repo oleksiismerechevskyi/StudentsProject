@@ -19,7 +19,7 @@ export class Player extends Character {
         let foo = this.characterClass.useAbility(name);
         target = target !== undefined ? target : this;
 
-        return foo instanceof Function ? foo(this) : foo;
+        return foo instanceof Function ? foo(target) : foo;
 
     }
 
