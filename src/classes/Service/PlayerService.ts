@@ -3,7 +3,7 @@ import { Player } from "../Player";
 
 export class PlayerService {
 
-   public static useAction(action: EPlayerActions, player: Player, target?: Player) {
+   public useAction(action: EPlayerActions, player: Player, target?: Player) {
       target = target === undefined ? player : target;
       if (action === 1) {
          player.useAttack(target);

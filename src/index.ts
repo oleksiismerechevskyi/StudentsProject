@@ -9,6 +9,7 @@ const mage = PlayerFactory.create('Enemy', ECharacterClass.MAGE);
 
 if( warrior instanceof Player && mage instanceof Player ) {
 
-    PlayerService.useAction(EPlayerActions.PLAYER_ATTACK, warrior, mage);
-    PlayerService.useAction(EPlayerActions.PLAYER_SPELL, warrior);
+    const service = new PlayerService();
+    service.useAction(EPlayerActions.PLAYER_ATTACK, warrior, mage);
+    service.useAction(EPlayerActions.PLAYER_SPELL, warrior);
 }
