@@ -6,7 +6,7 @@ import { Player } from "./Player";
 
 export class PlayerFactory {
 
-    public static create(nickName: string, classCreation: ECharacterClass): Player{
+    public static create(nickName: string, classCreation: ECharacterClass): Player | Error {
 
         switch (classCreation) {
             case 0:
@@ -16,7 +16,7 @@ export class PlayerFactory {
             case 2:
                 return new Player(nickName, new Rogue());;
             default:
-                return new Player(nickName, new Warrior());
+                return new Error('Class not found');
         }
     }
 }

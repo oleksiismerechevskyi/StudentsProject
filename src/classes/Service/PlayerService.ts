@@ -1,14 +1,7 @@
 import { EPlayerActions } from "../../enums/EPlayerActions";
-import { Warrior } from "../CharacterClass/Warrior";
 import { Player } from "../Player";
 
 export class PlayerService {
-   private player: Player;
-
-   constructor(player: Player) {
-      this.player = player;
-      console.log();
-   }
 
    public static useAction(action: EPlayerActions, player: Player, target?: Player) {
       target = target === undefined ? player : target;
@@ -30,18 +23,6 @@ export class PlayerService {
                break;
          }
       }
-   }
-
-   public useSpell(spellName: string, target?: Player): any {
-      return this.player.useSpell(spellName, target);
-   }
-
-   public useAttack(target: Player): any {
-      return this.player.useAttack(target);
-   }
-
-   public getPlayer(): Player {
-      return this.player;
    }
 
 }
