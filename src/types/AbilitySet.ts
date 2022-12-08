@@ -1,1 +1,1 @@
-type AbilitySet = {[key: string]: any};
+type AbilitySet = {[key: string]: Function};
