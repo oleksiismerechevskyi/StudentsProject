@@ -1,28 +1,14 @@
 import express, { NextFunction, Request, Response } from 'express';
+import { UserController } from '../controllers/UserController';
+import { UserValidator } from '../middlewares/UserValidator';
 
 export const authRouter = express.Router();
 
+authRouter.get('/login', UserController.getLoginHandler);
 
-authRouter.get('/login', (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).json({
-        message: 'Here is a login page! Welcome'
-    });
+authRouter.post('/login', UserValidator.loginValidate(), UserController.postLoginHandler);
 
-});
+authRouter.get('/register', UserController.getRegisterHandler);
 
-authRouter.get('/register', (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).json({
-        message: 'Here is a register page! Welcome'
-    });
+authRouter.post('/register',UserValidator.registerValidate(), UserController.postRegisterHandler);
 
-});
-
-authRouter.post('/register', (req: Request, res: Response, next: NextFunction) => {
-    let data: string = JSON.stringify(req.body);
-    res.send( `Try to register in with ${data}` );
-});
-
-authRouter.post('/login', (req: Request, res: Response, next: NextFunction) => {
-    let data: string = JSON.stringify(req.body);
-    res.send( `Try to log in with ${data}` );
-});

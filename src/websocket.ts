@@ -1,6 +1,6 @@
 import { WebSocketServer} from "ws";
 import { Server } from 'http';
-import { EventController } from "./events/EventController";
+import { EventController } from "./controllers/EventController";
 
 export const getWebSocketServer = (server: Server) => {
     const wss = new WebSocketServer({ server: server });
