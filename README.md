@@ -1,4 +1,5 @@
-To start a project run into console:
+Development node version: 16.14.0
 
-- npm i - to install all necessary packages for the project
-- npm start - to start a project
+How to run a project:
+- npm i - install all necessary packages for the project
+- npm start - start a project
