@@ -1,14 +1,18 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { UserController } from '../controllers/UserController';
 import { UserValidator } from '../middlewares/UserValidator';
+import { UserService } from '../services/UserService';
 
 export const authRouter = express.Router();
 
-authRouter.get('/login', UserController.getLoginHandler);
+const authService = new UserService('');
+const authController = new UserController(authService);
 
-authRouter.post('/login', UserValidator.loginValidate(), UserController.postLoginHandler);
+authRouter.get('/login', authController.getLoginHandler);
 
-authRouter.get('/register', UserController.getRegisterHandler);
+authRouter.post('/login', UserValidator.loginValidate(), authController.postLoginHandler);
 
-authRouter.post('/register',UserValidator.registerValidate(), UserController.postRegisterHandler);
+authRouter.get('/register', authController.getRegisterHandler);
+
+authRouter.post('/register',UserValidator.registerValidate(), authController.postRegisterHandler);
 

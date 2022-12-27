@@ -11,4 +11,6 @@ export const getWebSocketServer = (server: Server) => {
     wss.on('attack', EventController.attack);
     wss.on('regeneration', EventController.restore);
     wss.on('close', EventController.close);
+
+    return wss;
 }
