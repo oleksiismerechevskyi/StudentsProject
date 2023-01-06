@@ -8,7 +8,10 @@ export class ClassService {
 
     public getClassData() {
 
-        return new ClassEntityResponse(['data']);
+        let data: ClassEntityResponse = {
+            "classes": ['somedata']
+        }
+        return data;
     }
 
 }

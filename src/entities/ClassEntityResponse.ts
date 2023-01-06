@@ -1,5 +1,3 @@
-export class ClassEntityResponse {
-    constructor(
-        public classes: string[],
-    ) {}
+export interface ClassEntityResponse {
+    classes: string[]
 }

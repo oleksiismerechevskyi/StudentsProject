@@ -1,6 +1,5 @@
-export class UserEntityResponse {
-    constructor(
-        public username: string,
-        public password: string
-    ) {}
+export interface UserEntityResponse {
+    username: string,
+    password: string,
+    confirmPassword: string,
 }

@@ -21,7 +21,7 @@ export class UserController {
           throw new Error('VALIDATION ERROR');
         }
         let data: string = JSON.stringify(req.body);
-
+        
         let serviceData = this.userService.getUserData();
         res.send( `Try to login in with ${data}` );
     }

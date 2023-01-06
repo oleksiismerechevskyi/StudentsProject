@@ -8,9 +8,11 @@ export class UserService{
 
     public getUserData() {
 
-        return new UserEntityResponse(
-            'name',
-            'password'
-        );
+        let data: UserEntityResponse = {
+            "username": "user1",
+            "password": 'pass',
+            'confirmPassword': 'pass',
+        }
+        return data;
     }
 }

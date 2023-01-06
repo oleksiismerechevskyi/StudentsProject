@@ -7,5 +7,5 @@ export const classesRouter = express.Router();
 const classesService = new ClassService('');
 const classesController = new ClassController(classesService);
 
-classesRouter.get('/', classesController.getClassesHandler);
+classesRouter.get('/', classesController.getClassesHandler.bind(classesController));
 

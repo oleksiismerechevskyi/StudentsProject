@@ -10,7 +10,7 @@ const authController = new UserController(authService);
 
 authRouter.get('/login', authController.getLoginHandler);
 
-authRouter.post('/login', UserValidator.loginValidate(), authController.postLoginHandler);
+authRouter.post('/login', UserValidator.loginValidate(), authController.postLoginHandler.bind(authController));
 
 authRouter.get('/register', authController.getRegisterHandler);
 
