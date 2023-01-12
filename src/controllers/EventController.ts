@@ -1,7 +1,7 @@
 export class EventController {
 
     public static connection(wss: any) {
-        console.log('connection occurred');
+        console.log('connection occurred');        
     }
 
     public static close() {

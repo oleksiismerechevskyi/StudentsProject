@@ -1,12 +1,11 @@
 import express, { NextFunction, Request, Response } from 'express';
+import { ClassController } from '../controllers/ClassController';
+import { ClassService } from '../services/ClassService';
 
 export const classesRouter = express.Router();
 
+const classesService = new ClassService('');
+const classesController = new ClassController(classesService);
 
-classesRouter.get('/', (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).json({
-        message: 'Here is classes classes page! Welcome'
-    });
-
-});
+classesRouter.get('/', classesController.getClassesHandler.bind(classesController));
 

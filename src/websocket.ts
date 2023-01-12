@@ -1,6 +1,6 @@
 import { WebSocketServer} from "ws";
 import { Server } from 'http';
-import { EventController } from "./events/EventController";
+import { EventController } from "./controllers/EventController";
 
 export const getWebSocketServer = (server: Server) => {
     const wss = new WebSocketServer({ server: server });
@@ -11,4 +11,6 @@ export const getWebSocketServer = (server: Server) => {
     wss.on('attack', EventController.attack);
     wss.on('regeneration', EventController.restore);
     wss.on('close', EventController.close);
+
+    return wss;
 }
