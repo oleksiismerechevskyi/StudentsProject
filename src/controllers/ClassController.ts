@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ClassService } from "../services/ClassService";
+import { WebSocket } from "ws";
 
 export class ClassController {
 
@@ -8,6 +9,13 @@ export class ClassController {
     ) {}
 
     public getClassesHandler(req: Request, res: Response, next: NextFunction) {
+
+        let socket: WebSocket = new WebSocket('ws://localhost' + req.url);
+
+        socket.on('message', function(data: any) {
+            console.log(data);
+
+        });
 
         let serviceData = this.classService.getClassData();
 

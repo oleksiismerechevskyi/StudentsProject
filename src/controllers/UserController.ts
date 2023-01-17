@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { UserService } from "../services/UserService";
+import { AuthError } from "../errors/AuthError";
 
 export class UserController {
     
@@ -18,7 +19,7 @@ export class UserController {
     public postLoginHandler(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);        
         if (!errors.isEmpty()) {
-          throw new Error('VALIDATION ERROR');
+          throw new AuthError('');
         }
         let data: string = JSON.stringify(req.body);
         
@@ -36,7 +37,7 @@ export class UserController {
     public postRegisterHandler(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);        
         if (!errors.isEmpty()) {
-            throw new Error('VALIDATION ERROR');
+            throw new AuthError('');;
         }
         let data: string = JSON.stringify(req.body);
         res.send( `Try to register in with ${data}` );
