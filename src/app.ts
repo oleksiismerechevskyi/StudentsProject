@@ -1,6 +1,6 @@
-import express, { Response } from 'express';
+import express, { Request, Response } from 'express';
 import { errorHandler } from "./middlewares/errorHandler";
-
+import { WebSocket } from 'ws';
 import bodyParser from "body-parser";
 import { router } from './routes/index';
 
@@ -10,7 +10,8 @@ export const getApp = () => {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     
-    app.get('/', (req, res: Response) => {
+    app.get('/', (req: Request, res: Response) => {       
+        // let socket: WebSocket = new WebSocket('ws://localhost' + req.url);
         res.send('Hello World!');
     });
     
