@@ -11,7 +11,6 @@ export const getApp = () => {
     app.use(bodyParser.json());
     
     app.get('/', (req: Request, res: Response) => {       
-        // let socket: WebSocket = new WebSocket('ws://localhost' + req.url);
         res.send('Hello World!');
     });
     

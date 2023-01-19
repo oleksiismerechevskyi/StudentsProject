@@ -12,11 +12,14 @@ export class ClassController {
 
         let socket: WebSocket = new WebSocket('ws://localhost' + req.url);
 
-        socket.on('message', function(data: any) {
-            console.log(data);
+        socket.addEventListener("open", () => {
+            // send a message to the server
+            socket.send(JSON.stringify({
+              type: "hello from client",
+              content: [ 3, "4" ]
+            }));
 
-        });
-
+          });
         let serviceData = this.classService.getClassData();
 
         res.status(200).json({

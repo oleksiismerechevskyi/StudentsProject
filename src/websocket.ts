@@ -10,14 +10,6 @@ export const getWebSocketServer = (server: Server) => {
     const eventController = new EventController(eventService, wss);
 
     wss.on('connection', eventController.connection.bind(eventController));
-    wss.on('spell', eventController.spell.bind(eventController));
-    wss.on('message', eventController.message.bind(eventController));
-    wss.on('messageToAll', eventController.messageToAll.bind(eventController));
-    wss.on('attack', eventController.attack.bind(eventController));
-    wss.on('regeneration', eventController.restore.bind(eventController));
-    wss.on('close', eventController.close.bind(eventController));
-    wss.on('test', function() {console.log('there is a test');
-    });
-
+    wss.on('error', (err) => console.log('WS error ' + err.message));
     return wss;
 }
