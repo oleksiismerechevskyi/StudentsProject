@@ -1,16 +1,15 @@
-import { WebSocketServer} from "ws";
+import { WebSocketServer } from "ws";
 import { Server } from 'http';
 import { EventController } from "./controllers/EventController";
+import { EventService } from "./services/EventService";
 
 export const getWebSocketServer = (server: Server) => {
     const wss = new WebSocketServer({ server: server });
 
-    wss.on('connection', EventController.connection);
-    wss.on('spell', EventController.spell);
-    wss.on('message', EventController.message);
-    wss.on('attack', EventController.attack);
-    wss.on('regeneration', EventController.restore);
-    wss.on('close', EventController.close);
+    const eventService = new EventService('');
+    const eventController = new EventController(eventService, wss);
 
+    wss.on('connection', eventController.connection.bind(eventController));
+    wss.on('error', (err) => console.log('WS error ' + err.message));
     return wss;
 }

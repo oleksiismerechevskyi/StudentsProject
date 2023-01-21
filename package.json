@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && tsc-esm  build/*.js build/**/*.js && node build/index.js",
+    "build": "tsc && tsc-esm  build/*.js build/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
