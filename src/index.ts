@@ -6,6 +6,9 @@ import { EPlayerActions } from "./enums/EPlayerActions";
 import http from 'http';
 import { getApp } from "./app";
 import { getWebSocketServer } from "./websocket";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 // const warrior = PlayerFactory.create('Alex', ECharacterClass.WARRIOR);
 // const mage = PlayerFactory.create('Enemy', ECharacterClass.MAGE);
@@ -16,7 +19,7 @@ import { getWebSocketServer } from "./websocket";
 //     service.useAction(EPlayerActions.PLAYER_SPELL, warrior);
 // }
 
-const port = 80;
+const port = process.env.PORT;
 const server = http.createServer(getApp());
 const WebSocketServer = getWebSocketServer(server);
 console.log(`The WebSocket server is running`);
