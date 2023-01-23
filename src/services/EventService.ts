@@ -7,44 +7,54 @@ export class EventService {
         private repository: any
     ) {}
 
-    public messageServiceData(message: string) {
-        console.log('Entered into messageServiceData');
+    public messageToAllServiceData(message: string) {
+        console.log('Entered into messageToAllServiceData');
         
         let data: EventEntityResponse = {
             type: EEventType.EVENT_MESSAGE,
-            userId: 1,
             message: message
         }
         return data;
     }
 
-    public spellServiceData() {
+    public messageServiceData(userId: string, message: string) {
+        console.log('Entered into messageServiceData');
+        
+        let data: EventEntityResponse = {
+            type: EEventType.EVENT_MESSAGE,
+            userId: userId,
+            message: message
+        }
+        return data;
+    }
+
+    public spellServiceData(userId: string) {
         console.log('Entered into spellServiceData');
 
         let data: EventEntityResponse = {
             type: EEventType.EVENT_ABILITY,
-            userId: 1
+            userId: userId
         }
         return data;
         
     }
 
-    public restoreServiceData() {
+    public restoreServiceData(userId: string) {
         console.log('Entered into restoreServiceData');
 
         let data: EventEntityResponse = {
             type: EEventType.EVENT_RESTORE,
-            userId: 1
+            userId: userId
         }
         return data;
     }
 
-    public attackServiceData() {
+    public attackServiceData(userId: string) {
         console.log('Entered into attackServiceData');
 
         let data: EventEntityResponse = {
             type: EEventType.EVENT_ATTACK,
-            userId: 1
+            userId: userId
         }
         return data;
     }
