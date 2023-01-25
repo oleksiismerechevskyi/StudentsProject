@@ -9,7 +9,34 @@ export const getWebSocketServer = (server: Server) => {
     const eventService = new EventService('');
     const eventController = new EventController(eventService, wss);
 
-    wss.on('connection', eventController.connection.bind(eventController));
+    /**
+     * Here will be set of connected users.
+     */
+
+    wss.on('connection', (socket: any, req: any) => {
+
+        /**
+         * Setup some properties here on connection.
+         */
+
+        socket.on('message', (message: any) => {
+
+            /**
+             * Decode and parsing message data.
+             */
+
+            message = JSON.parse(message);
+
+            eventController.messageController(message, socket, req);
+
+        });
+
+
+        socket.on('close', () => { console.log('close') });
+        socket.on('error', (err:any) => { console.log('error ' + err.message) });
+    });
+
+
     wss.on('error', (err) => console.log('WS error ' + err.message));
     return wss;
 }

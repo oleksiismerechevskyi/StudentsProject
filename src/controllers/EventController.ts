@@ -19,9 +19,7 @@ export class EventController {
     constructor(
         private eventService: EventService,
         private webSocketServer: WebSocketServer,
-    ) {
-
-    }
+    ) {}
 
     public connection(socket: WebSocket, req: IncomingMessage) {
         console.log('connection occurred');
@@ -29,15 +27,15 @@ export class EventController {
         let uid: string = uuidv4();
         this.connectedUsers.set(uid, socket);
         
-        socket.on('message', (data: string) => {
-            try{
-                this.messageController(data, socket, req);
-            } catch(err: any) {
-                socket.close();
-                throw new EventError('Message Controller error - ' + err.message);
-            }
+        // socket.on('message', (data: string) => {
+        //     try{
+        //         this.messageController(data, socket, req);
+        //     } catch(err: any) {
+        //         socket.close();
+        //         throw new EventError('Message Controller error - ' + err.message);
+        //     }
             
-        });
+        // });
         socket.on('close', this.close.bind(socket));
         socket.on('error', this.error.bind(socket));
 
