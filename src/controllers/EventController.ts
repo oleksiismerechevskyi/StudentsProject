@@ -7,8 +7,7 @@ import { EventMessageDto } from "../entities/EventMessageDto";
 import { EventEntityResponse } from "../entities/EventEntityResponse";
 
 export class EventController {
-    private connectedUsers: Map<string, WebSocket> = new Map<string, WebSocket>;
-    private actions: { [key: string]: Function } = {
+    public actions: { [key: string]: Function } = {
         "spell": this.spell,
         "messageToAll": this.messageToAll,
         "attack": this.attack,
@@ -16,67 +15,12 @@ export class EventController {
         "message": this.message,
     }
 
+    public connectedUsers: Map<string, WebSocket> = new Map<string, WebSocket>;
+
     constructor(
         private eventService: EventService,
         private webSocketServer: WebSocketServer,
     ) {}
-
-    public connection(socket: WebSocket, req: IncomingMessage) {
-        console.log('connection occurred');
-
-        let uid: string = uuidv4();
-        this.connectedUsers.set(uid, socket);
-        
-        // socket.on('message', (data: string) => {
-        //     try{
-        //         this.messageController(data, socket, req);
-        //     } catch(err: any) {
-        //         socket.close();
-        //         throw new EventError('Message Controller error - ' + err.message);
-        //     }
-            
-        // });
-        socket.on('close', this.close.bind(socket));
-        socket.on('error', this.error.bind(socket));
-
-    }
-
-    public error(err: any) {
-        console.error('websocket error ' + err.message);
-        
-    }
-
-    public close() {
-        console.log('close occurred');
-    }
-
-    public messageController(data: string, socket: WebSocket, req: IncomingMessage) {
-        try {
-            let decodedData: EventMessageDto = JSON.parse(data);
-            this.actionHandler(decodedData.action, decodedData.userId, decodedData.message);
-        } catch( err: any) {
-            socket.send('Error occured');
-            throw new EventError( err.message );
-        }
-        
-    }
-
-    protected actionHandler(actionName: string, userId: string, message?: string) {
-        for(let name in this.actions) {
-            if( name === actionName ) {
-                if('message' === actionName) {
-                    return this.actions[actionName].bind(this)(userId,message);
-                }
-                if('messageToAll' === actionName) {
-                    return this.actions[actionName].bind(this)(message); 
-                }
-                return this.actions[actionName].bind(this)(userId);
-            }
-           
-        }
-
-        throw new EventError( "Action doesn't exist" );
-    }
 
     public message(userId: string, message: string) {
         console.log( 'Entered into message action' );
@@ -86,7 +30,7 @@ export class EventController {
     }
 
     public messageToAll(message: string) {
-        this.connectedUsers.forEach((client: WebSocket ) => {
+        this.connectedUsers.forEach((client: WebSocket) => {
             if (client.readyState === WebSocket.OPEN && client instanceof WebSocket) {
                 console.log( 'Entered into messageToAll action' );
                 let data: EventEntityResponse = this.eventService.messageToAllServiceData(message);
