@@ -1,0 +1,20 @@
+services:
+  postgres:
+    container_name: project_postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=admin2
+      - POSTGRES_PASSWORD=11111
+      - POSTGRES_DB=core
+    ports:
+      - "5432:5432"
+
+  build:
+    container_name: build
+    image: node:16.14.0
+    ports:
+      - "80:80"
+    network_mode: host
+    command: bash -c 'ls -la && pwd'
+    depends_on: 
+      - postgres

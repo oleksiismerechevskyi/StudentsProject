@@ -14,5 +14,5 @@ authRouter.post('/login', UserValidator.loginValidate(), authController.postLogi
 
 authRouter.get('/register', authController.getRegisterHandler);
 
-authRouter.post('/register',UserValidator.registerValidate(), authController.postRegisterHandler);
+authRouter.post('/register',UserValidator.registerValidate(), authController.postRegisterHandler.bind(authController));
 

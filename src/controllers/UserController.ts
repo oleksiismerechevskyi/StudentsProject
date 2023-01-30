@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { UserService } from "../services/UserService";
 import { AuthError } from "../errors/AuthError";
+import { UserRegisterDto } from "../entities/UserRegisterDto";
+import { UserLoginDto } from "../entities/UserLoginDto";
 
 export class UserController {
     
@@ -19,12 +21,11 @@ export class UserController {
     public postLoginHandler(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);        
         if (!errors.isEmpty()) {
-          throw new AuthError('');
+          throw new AuthError('Login post request error');
         }
-        let data: string = JSON.stringify(req.body);
-        
-        let serviceData = this.userService.getUserData();
-        res.send( `Try to login in with ${data}` );
+
+        const token: string = this.userService.processedLoginUserData(req.body);
+        res.json({token: token});
     }
 
     public getRegisterHandler(req: Request, res: Response, next: NextFunction) {
@@ -37,9 +38,10 @@ export class UserController {
     public postRegisterHandler(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);        
         if (!errors.isEmpty()) {
-            throw new AuthError('');;
+            throw new AuthError('Register post request error');
         }
-        let data: string = JSON.stringify(req.body);
-        res.send( `Try to register in with ${data}` );
+        
+        const token: string = this.userService.processedRegisterUserData(req.body);
+        res.json({token: token});
     }
 }

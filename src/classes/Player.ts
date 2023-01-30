@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export class Player extends Character {
     private id: string = uuidv4(); 
-    public nickname: string = 'test';
+    private nickname: string = 'test';
 
     constructor(nickName: string, characterClass: CharacterClass) {
         super(characterClass);

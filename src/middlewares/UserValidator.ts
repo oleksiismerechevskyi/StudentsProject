@@ -44,7 +44,15 @@ export class UserValidator{
                 return false;
                 
             }),
-            check('confirmPassword').notEmpty().custom((value: string, { req, location, path }) => value === req.body.password)
+            check('confirmPassword').notEmpty().custom((value: string, { req, location, path }) => value === req.body.password),
+            check('userClass').notEmpty().custom((value: string) => {
+                let classes = ['mage', 'warrior', 'rogue'];
+                if(classes.includes(value)) {
+                    return true;
+                }
+
+                return false;
+            })
         ];
     }
 }
