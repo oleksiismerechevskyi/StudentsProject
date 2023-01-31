@@ -19,3 +19,7 @@ CREATE TABLE classes (
 	updated_at timestamp NULL
 );
 
+-- Down Migration
+
+DROP TABLE classes;
+DROP TABLE users;

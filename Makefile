@@ -19,5 +19,8 @@ clean:
 migrate:
 	docker compose exec web npm run migrate up db-init-migration --migration-filename-format=sql
 
+dropmigrate:
+	docker compose exec web npm run migrate down db-init-migration --migration-filename-format=sql
+
 
 
