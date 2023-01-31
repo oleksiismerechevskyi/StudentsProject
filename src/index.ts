@@ -7,8 +7,30 @@ import http from 'http';
 import { getApp } from "./app";
 import { getWebSocketServer } from "./websocket";
 import * as dotenv from "dotenv";
+import dotenvExpand from 'dotenv-expand';
+import { Client, Pool } from "pg";
 
-dotenv.config();
+const config = dotenv.config();
+dotenvExpand.expand(config);
+
+console.log(process.env.DATABASE_URL);
+
+// const client = new Pool({
+//     host: process.env.DATABASE_HOST,
+//     port: parseInt(process.env.DATABASE_PORT!),
+//     user: process.env.DATABASE_USER,
+//     password: process.env.DATABASE_PASSWORD,
+//     database: process.env.DATABASE_NAME
+//     })
+
+// client.connect((err) => {
+//   if (err) {
+//     console.error('connection error', err.stack)
+//   } else {
+//     console.log('connected')
+//   }
+// })
+
 
 // const warrior = PlayerFactory.create('Alex', ECharacterClass.WARRIOR);
 // const mage = PlayerFactory.create('Enemy', ECharacterClass.MAGE);
