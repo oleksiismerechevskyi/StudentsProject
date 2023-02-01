@@ -10,6 +10,7 @@ services:
       - "5432:5432"
 
   web:
+    image: node:16.14.0
     container_name: web
     network_mode: host
     build: 

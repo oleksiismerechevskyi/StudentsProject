@@ -8,26 +8,10 @@ import { getApp } from "./app";
 import { getWebSocketServer } from "./websocket";
 import * as dotenv from "dotenv";
 import dotenvExpand from 'dotenv-expand';
-import { Client }from 'pg'
+import pg from 'pg'
 
 const config = dotenv.config();
 dotenvExpand.expand(config);
-
-const client = new Client({
-    host: process.env.DATABASE_HOST,
-    port: parseInt(process.env.DATABASE_PORT!),
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME
-    })
-
-client.connect((err) => {
-  if (err) {
-    console.error('connection error', err.stack)
-  } else {
-    console.log('connected')
-  }
-})
 
 
 // const warrior = PlayerFactory.create('Alex', ECharacterClass.WARRIOR);
@@ -45,6 +29,21 @@ const WebSocketServer = getWebSocketServer(server);
 console.log(`The WebSocket server is running`);
 
 server.listen(port, () => {
+    const client: pg.Client = new pg.Client({
+      host: process.env.POSTGRES_HOST,
+      port: parseInt(process.env.POSTGRES_PORT!),
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB
+      })
+
+    client.connect((err) => {
+    if (err) {
+      console.error('connection error', err.stack)
+    } else {
+      console.log('connected')
+    }
+    });
     console.log(`Example app listening on port ${port}`);
 });
 
