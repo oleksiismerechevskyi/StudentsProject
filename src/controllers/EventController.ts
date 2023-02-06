@@ -22,14 +22,14 @@ export class EventController {
         private webSocketServer: WebSocketServer,
     ) {}
 
-    public message(userId: string, message: string) {
+    public async message(userId: string, message: string) {
         console.log( 'Entered into message action' );
         let data: EventEntityResponse = this.eventService.messageServiceData(userId, message);
         console.log(data);
         console.log('Done!');
     }
 
-    public messageToAll(message: string) {
+    public async messageToAll(message: string) {
         this.connectedUsers.forEach((client: WebSocket) => {
             if (client.readyState === WebSocket.OPEN && client instanceof WebSocket) {
                 console.log( 'Entered into messageToAll action' );

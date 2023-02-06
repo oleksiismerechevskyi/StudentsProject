@@ -1,9 +1,9 @@
 
 run:
 ifneq (,$(findstring s, $(MAKEFLAGS)))
-	docker compose up -d
+	docker compose up --build -d
 else 
-	docker compose up
+	docker compose up --build
 endif
 
 stop:
@@ -17,10 +17,10 @@ clean:
 	docker compose rm postgres
 
 migrate:
-	docker compose exec web npm run migrate up db-init-migration --migration-filename-format=sql
+	docker compose exec web npm run migrate up
 
 dropmigrate:
-	docker compose exec web npm run migrate down db-init-migration --migration-filename-format=sql
+	docker compose exec web npm run migrate down
 
 
 

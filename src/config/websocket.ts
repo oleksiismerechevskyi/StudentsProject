@@ -1,11 +1,11 @@
 import { WebSocketServer } from "ws";
 import { Server } from 'http';
-import { EventController } from "./controllers/EventController";
-import { EventService } from "./services/EventService";
+import { EventController } from "../controllers/EventController";
+import { EventService } from "../services/EventService";
 import { IncomingMessage } from "http";
-import { EventError } from "./errors/EventError";
 import { v4 as uuidv4 } from "uuid";
-import { EventMessageDto } from "./entities/EventMessageDto";
+import { EventMessageDto } from "../entities/EventMessageDto";
+import { EventError } from "../errors/EventError";
 
 export const getWebSocketServer = (server: Server) => {
     const wss = new WebSocketServer({ server: server });

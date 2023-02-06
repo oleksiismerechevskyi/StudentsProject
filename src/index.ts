@@ -4,14 +4,16 @@ import { PlayerService } from "./classes/Service/PlayerService";
 import { ECharacterClass } from "./enums/ECharacterClass";
 import { EPlayerActions } from "./enums/EPlayerActions";
 import http from 'http';
-import { getApp } from "./app";
-import { getWebSocketServer } from "./websocket";
+import { getApp } from "./config/app";
+import { getWebSocketServer } from "./config/websocket";
 import * as dotenv from "dotenv";
 import dotenvExpand from 'dotenv-expand';
+import { getDBInstance } from "./config/db";
 import pg from 'pg'
 
 const config = dotenv.config();
 dotenvExpand.expand(config);
+
 
 
 // const warrior = PlayerFactory.create('Alex', ECharacterClass.WARRIOR);
@@ -28,22 +30,24 @@ const server = http.createServer(getApp());
 const WebSocketServer = getWebSocketServer(server);
 console.log(`The WebSocket server is running`);
 
-server.listen(port, () => {
-    const client: pg.Client = new pg.Client({
-      host: process.env.POSTGRES_HOST,
-      port: parseInt(process.env.POSTGRES_PORT!),
-      user: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DB
-      })
+server.listen(port, async() => {
 
-    client.connect((err) => {
-    if (err) {
-      console.error('connection error', err.stack)
-    } else {
-      console.log('connected')
-    }
-    });
+    const client: pg.Client = new pg.Client({
+        host: process.env.POSTGRES_HOST,
+        port: parseInt(process.env.POSTGRES_PORT!),
+        user: process.env.POSTGRES_USER,
+        password: process.env.POSTGRES_PASSWORD,
+        database: process.env.POSTGRES_DB
+        })
+  
+      client.connect((err) => {
+      if (err) {
+        console.error('connection error', err.stack)
+      } else {
+        console.log('connected')
+      }
+      });
+    
     console.log(`Example app listening on port ${port}`);
 });
 

@@ -2,14 +2,15 @@ import { UserLoginDto } from "../entities/UserLoginDto";
 import { UserRegisterDto } from "../entities/UserRegisterDto";
 import { v4 as uuidv4 } from "uuid";
 import jsonwebtoken from 'jsonwebtoken';
+import { Repository } from "../repositories/Repository";
 
 export class UserService{
 
     constructor(
-        private repository: any
+        private repository: Repository<object>
     ) {}
 
-    public processedRegisterUserData(requestData: UserRegisterDto): string {
+    public async processedRegisterUserData(requestData: UserRegisterDto): Promise<string> {
         
         /**
          * Here will be query to repository and insert new row into db.
@@ -33,15 +34,16 @@ export class UserService{
         return token;
     }
 
-    public processedLoginUserData(requestData: UserLoginDto) {
+    public async processedLoginUserData(requestData: UserLoginDto) {
         
         /**
          * Here will be query to repository and find proper user.
          */
 
-        const tokendata: UserLoginDto = requestData;
-        const token: string = jsonwebtoken.sign(tokendata, process.env.JWT_SECRET!);
+        const data = await this.repository.read( ['id', 'username'] );
+        console.log(data);
+        
         console.log('Processed request login data in Service');
-        return token;
+        return 'success';
     }
 }

@@ -4,6 +4,8 @@ services:
     container_name: postgres
     image: postgres:latest
     restart: always
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
     env_file:
       - ./.env
     ports:
@@ -12,16 +14,13 @@ services:
   web:
     image: node:16.14.0
     container_name: web
-    network_mode: host
-    build: 
-      context: .
     volumes:
       - ./:/app
     command: bash -c 'ls -la && pwd && npm start'
+    working_dir: /app
     ports:
       - "80:80"
     env_file:
       - ./.env
-    restart: always
     depends_on: 
       - postgres
