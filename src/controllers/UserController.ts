@@ -4,7 +4,6 @@ import { UserService } from "../services/UserService";
 import { AuthError } from "../errors/AuthError";
 import { UserRegisterDto } from "../entities/UserRegisterDto";
 import { UserLoginDto } from "../entities/UserLoginDto";
-import { getDBInstance } from "../config/db";
 import pg from "pg";
 
 export class UserController {
@@ -14,7 +13,6 @@ export class UserController {
     ) {}
 
     public async getLoginHandler(req: Request, res: Response, next: NextFunction) {
-        let db: pg.Pool = await getDBInstance();
         
         res.status(200).json({
             message: 'Here is a login page! Welcome'

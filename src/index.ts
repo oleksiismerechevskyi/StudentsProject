@@ -1,29 +1,12 @@
-import { Player } from "./classes/Player";
-import { PlayerFactory } from "./classes/PlayerFactory";
-import { PlayerService } from "./classes/Service/PlayerService";
-import { ECharacterClass } from "./enums/ECharacterClass";
-import { EPlayerActions } from "./enums/EPlayerActions";
 import http from 'http';
 import { getApp } from "./config/app";
 import { getWebSocketServer } from "./config/websocket";
 import * as dotenv from "dotenv";
 import dotenvExpand from 'dotenv-expand';
-import { getDBInstance } from "./config/db";
 import pg from 'pg'
 
 const config = dotenv.config();
 dotenvExpand.expand(config);
-
-
-
-// const warrior = PlayerFactory.create('Alex', ECharacterClass.WARRIOR);
-// const mage = PlayerFactory.create('Enemy', ECharacterClass.MAGE);
-
-// if (warrior instanceof Player && mage instanceof Player) {
-//     const service = new PlayerService();
-//     service.useAction(EPlayerActions.PLAYER_ATTACK, warrior, mage);
-//     service.useAction(EPlayerActions.PLAYER_SPELL, warrior);
-// }
 
 const port = process.env.PORT;
 const server = http.createServer(getApp());
@@ -42,9 +25,9 @@ server.listen(port, async() => {
   
       client.connect((err) => {
       if (err) {
-        console.error('connection error', err.stack)
+        console.error('Postgres database connection error', err.stack)
       } else {
-        console.log('connected')
+        console.log('Postgres database connected successfully')
       }
       });
     
