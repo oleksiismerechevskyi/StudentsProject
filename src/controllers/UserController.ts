@@ -4,6 +4,7 @@ import { UserService } from "../services/UserService";
 import { AuthError } from "../errors/AuthError";
 import { UserRegisterDto } from "../entities/UserRegisterDto";
 import { UserLoginDto } from "../entities/UserLoginDto";
+import pg from "pg";
 
 export class UserController {
     
@@ -11,37 +12,39 @@ export class UserController {
         private userService: UserService
     ) {}
 
-    public getLoginHandler(req: Request, res: Response, next: NextFunction) {
+    public async getLoginHandler(req: Request, res: Response, next: NextFunction) {
+        
         res.status(200).json({
             message: 'Here is a login page! Welcome'
         });
     
     }
     
-    public postLoginHandler(req: Request, res: Response, next: NextFunction) {
+    public async postLoginHandler(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);        
         if (!errors.isEmpty()) {
-          throw new AuthError('Login post request error');
+            next(new AuthError('Login post request error'));
+            return;
         }
-
-        const token: string = this.userService.processedLoginUserData(req.body);
-        res.json({token: token});
+        
+        const token: string = await this.userService.processedLoginUserData(req.body);
+        res.json({message: token});
     }
 
-    public getRegisterHandler(req: Request, res: Response, next: NextFunction) {
+    public async getRegisterHandler(req: Request, res: Response, next: NextFunction) {
         res.status(200).json({
             message: 'Here is a register page! Welcome'
         });
-    
-
     }
-    public postRegisterHandler(req: Request, res: Response, next: NextFunction) {
+    public async postRegisterHandler(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);        
         if (!errors.isEmpty()) {
-            throw new AuthError('Register post request error');
+             next(new AuthError('Register post request error'));
+             return;
         }
         
-        const token: string = this.userService.processedRegisterUserData(req.body);
+        
+        const token: string = await this.userService.processedRegisterUserData(req.body);
         res.json({token: token});
     }
 }

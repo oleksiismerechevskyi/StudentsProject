@@ -8,8 +8,7 @@ export class ClassController {
         private classService: ClassService
     ) {}
 
-    public getClassesHandler(req: Request, res: Response, next: NextFunction) {
-
+    public async getClassesHandler(req: Request, res: Response, next: NextFunction) {        
         res.status(200).json({
             message: 'Here is classes classes page! Welcome'
         });
