@@ -1,7 +1,7 @@
 import { EPlayerActions } from "../../enums/EPlayerActions";
 import { Player } from "../Player";
 
-export class PlayerService {
+export class PlayerModelService {
 
    public useAction(action: EPlayerActions, player: Player, target?: Player) {
       target = target === undefined ? player : target;

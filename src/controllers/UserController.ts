@@ -5,6 +5,7 @@ import { AuthError } from "../errors/AuthError";
 import { UserRegisterDto } from "../entities/UserRegisterDto";
 import { UserLoginDto } from "../entities/UserLoginDto";
 import pg from "pg";
+import { UserRepositoryDto } from "../repositories/dto/UserRepositoryDto";
 
 export class UserController {
     
@@ -27,8 +28,13 @@ export class UserController {
             return;
         }
         
-        const token: string = await this.userService.processedLoginUserData(req.body);
-        res.json({message: token});
+        const token: string | AuthError = await this.userService.processedLoginUserData(req.body);
+        if( token instanceof AuthError ) {
+            next(token);
+            return;
+        }
+
+        res.json({token: token});
     }
 
     public async getRegisterHandler(req: Request, res: Response, next: NextFunction) {
@@ -43,8 +49,13 @@ export class UserController {
              return;
         }
         
-        
-        const token: string = await this.userService.processedRegisterUserData(req.body);
-        res.json({token: token});
+        const data: UserRepositoryDto | AuthError = await this.userService.processedRegisterUserData(req.body);
+
+        if( data instanceof AuthError ) {
+            next(data);
+            return;
+        }
+
+        res.json(data);
     }
 }

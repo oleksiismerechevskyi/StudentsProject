@@ -1,7 +1,8 @@
 export interface UserRepositoryDto {
-    id: number,
-    username: string,
+    name: string,
     email: string,
-    created_at: string,
-    updated_at: string
+    password: string,
+    class_id: number,
+    created_at?: string,
+    updated_at?: string
 }

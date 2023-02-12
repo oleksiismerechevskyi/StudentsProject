@@ -3,11 +3,13 @@ import { ClassController } from '../controllers/ClassController';
 import { ClassService } from '../services/ClassService';
 import { authenticateToken } from '../middlewares/authenticateToken';
 import { asyncMiddleware } from '../middlewares/asyncMiddleware';
+import { ClassRepository } from '../repositories/ClassRepository';
 
 export const classesRouter = express.Router();
 
-const classesService = new ClassService('');
+const classesRepository = new ClassRepository();
+const classesService = new ClassService(classesRepository);
 const classesController = new ClassController(classesService);
 
-classesRouter.get('/', authenticateToken, asyncMiddleware(classesController.getClassesHandler.bind(classesController)));
+classesRouter.get('/', asyncMiddleware(classesController.getClassesHandler.bind(classesController)));
 

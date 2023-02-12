@@ -30,6 +30,19 @@ exports.up = (pgm) => {
       type: 'timestamp',
     },
   });
+
+  pgm.sql( `INSERT INTO classes 
+  (id, name, health, damage, attack_type, ability, created_at, updated_at) 
+  VALUES(1, 'warrior', 200, 50, 'physical', 'block', NOW(), NULL);`);
+  
+  pgm.sql( `INSERT INTO classes 
+  (id, name, health, damage, attack_type, ability, created_at, updated_at) 
+  VALUES(2, 'mage', 80, 100, 'magical', 'fireball', NOW(), NULL);`);
+
+  pgm.sql( `INSERT INTO classes 
+  (id, name, health, damage, attack_type, ability, created_at, updated_at) 
+  VALUES(3, 'rogue', 100, 25, 'physical', 'sprint', NOW(), NULL);`);
+  
 };
 
 exports.down = (pgm) => {
