@@ -3,47 +3,49 @@ import { UserRegisterDto } from "../entities/UserRegisterDto";
 import { v4 as uuidv4 } from "uuid";
 import jsonwebtoken from 'jsonwebtoken';
 import { Repository } from "../repositories/Repository";
+import { UserRepositoryDto } from "../repositories/dto/UserRepositoryDto";
+import { QueryResult } from "pg";
+import moment from "moment";
+import { AuthError } from "../errors/AuthError";
 
-export class UserService{
+export class UserService {
 
     constructor(
         private repository: Repository<object>
     ) {}
 
-    public async processedRegisterUserData(requestData: UserRegisterDto): Promise<string> {
-        
-        /**
-         * Here will be query to repository and insert new row into db.
-         */
+    public async processedRegisterUserData(requestData: UserRegisterDto): Promise<UserRepositoryDto | AuthError> {
 
-        const processedData: UserRegisterDto = {
-            id: uuidv4(),
-            username: requestData.username,
+        let processedDto: UserRepositoryDto = {
+            name: requestData.username,
             password: requestData.password,
-            confirmPassword: requestData.confirmPassword,
-            userClass: requestData.userClass,
-        };
+            class_id: requestData.class_id,
+            email: requestData.email,
+            created_at: moment().format('YYYY-MM-DD hh:mm:ss')
+        }
 
-        const tokenData: UserLoginDto = {
-            username: requestData.username,
-            password: requestData.password
+        let existedUserResults: QueryResult = await this.repository.select(['email'], {email: requestData.email});
+        console.log(existedUserResults);
+        
+        if( existedUserResults.rows.length > 0 ) {
+            return new AuthError('User already exists');
         }
         
-        const token: string = jsonwebtoken.sign(tokenData, process.env.JWT_SECRET!);
-        console.log('Processed request register data in Service');
-        return token;
+        let isCreated: QueryResult = await this.repository.create(processedDto);
+        let createdUser: QueryResult<UserRepositoryDto> = await this.repository.select(['name','email', 'password', 'class_id', 'created_at', 'updated_at'], {email: requestData.email});
+
+        console.log('Processed request register data in UserService');
+        return createdUser.rows[0];
     }
 
-    public async processedLoginUserData(requestData: UserLoginDto) {
+    public async processedLoginUserData(requestData: UserLoginDto): Promise<string|AuthError> {
+        const data = await this.repository.select( ['email', 'password'], {'email': requestData.email, 'password': requestData.password} );
+        console.log('Processed request login data in UserService');
+        if( data.rows.length === 0 ) {
+            return new AuthError("User doesn't exist");
+        }
         
-        /**
-         * Here will be query to repository and find proper user.
-         */
-
-        const data = await this.repository.read( ['id', 'username'] );
-        console.log(data);
-        
-        console.log('Processed request login data in Service');
-        return 'success';
+        const token: string = jsonwebtoken.sign(data.rows[0], process.env.JWT_SECRET!);
+        return token;
     }
 }
